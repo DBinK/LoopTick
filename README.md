@@ -8,7 +8,7 @@ pip install looptick
 ```
 本地安装
 ```bash
-git clone https://github.com/DBinKv1/looptick.git
+git clone https://github.com/DBinK/LoopTick
 pip install -e .
 ```
 
