@@ -1,0 +1,84 @@
+import time
+
+class LoopTick:
+    """循环计时器，用于测量每次循环及总耗时"""
+    NS2MS  = 1 / 1_000_000
+    NS2SEC = 1 / 1_000_000_000
+
+    def __init__(self, auto_report=True):
+        """
+        :param auto_report: True 时，在退出上下文时自动打印总耗时和平均耗时
+        """
+        self._last_time = None
+        self._total_time_ns = 0
+        self._count = 0
+        self.auto_report = auto_report
+
+    def tick(self):
+        """记录一次循环，返回本次循环耗时（ns）"""
+        now = time.time_ns()
+        if self._last_time is None:
+            self._last_time = now
+            return 0
+        diff = now - self._last_time
+        self._last_time = now
+        self._total_time_ns += diff
+        self._count += 1
+        return diff
+
+    def reset(self):
+        """重置计时器"""
+        self._last_time = None
+        self._total_time_ns = 0
+        self._count = 0
+
+    @property
+    def total_ns(self):
+        return self._total_time_ns
+
+    @property
+    def total_sec(self):
+        return self._total_time_ns * self.NS2SEC
+
+    @property
+    def average_ns(self):
+        return self._total_time_ns / self._count if self._count else 0
+
+    @property
+    def average_ms(self):
+        return self.average_ns * self.NS2MS
+
+    def __enter__(self):
+        self.reset()
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if self.auto_report:
+            print(f"总耗时: {self.total_sec:.6f} 秒")
+            print(f"平均耗时: {self.average_ms:.6f} ms")
+
+
+
+if __name__ == "__main__":
+    # 普通方式
+    looptick = LoopTick()
+
+    for i in range(10):
+        diff = looptick.tick()
+        print(f"第 {i} 次循环耗时: {diff * looptick.NS2MS:.6f} ms")
+        time.sleep(0.001)
+    
+    print(f"总耗时: {looptick.total_sec:.6f} 秒")
+    print(f"平均耗时: {looptick.average_ms:.6f} ms")
+    
+
+    # 用上下文管理器方式
+    with LoopTick() as looptick:
+        for i in range(10):
+            diff = looptick.tick()
+            print(f"第 {i} 次循环耗时: {diff * looptick.NS2MS:.6f} ms")
+            time.sleep(0.001)
+
+    while True:
+        time.sleep(0.1)
+        pass

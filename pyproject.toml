@@ -1,0 +1,33 @@
+[project]
+name = "looptick"
+version = "0.1.0"
+description = "A simple loop execution time measurement tool."
+readme = "README.md"
+authors = [
+    { name = "DBinK", email = "DBinKv1d@Gmail.com" }
+]
+requires-python = ">=3.10"
+
+keywords = ["timer", "loop", "benchmark", "performance", "profiling"]
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Debuggers",
+    "Topic :: System :: Benchmark"
+]
+
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/你的GitHub用户名/looptick"
+Source = "https://github.com/你的GitHub用户名/looptick"
+
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+
