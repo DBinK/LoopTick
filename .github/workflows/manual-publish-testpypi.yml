@@ -12,6 +12,8 @@ jobs:
   build-and-publish:
     runs-on: ubuntu-latest
     
+    # 注意：不要添加 id-token: write 权限，因为我们使用API token而不是Trusted Publishing
+    
     steps:
     - uses: actions/checkout@v4
     
