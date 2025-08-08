@@ -22,8 +22,7 @@ classifiers = [
 dependencies = []
 
 [project.urls]
-Homepage = "https://github.com/你的GitHub用户名/looptick"
-Source = "https://github.com/你的GitHub用户名/looptick"
+Source = "https://github.com/DBinK/LoopTick"
 
 
 [build-system]

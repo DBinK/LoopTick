@@ -19,7 +19,7 @@ class LoopTick:
         now = time.time_ns()
         if self._last_time is None:
             self._last_time = now
-            return 0
+            return 0.000_001  # 避免除零
         diff = now - self._last_time
         self._last_time = now
         self._total_time_ns += diff
@@ -37,9 +37,13 @@ class LoopTick:
         return self._total_time_ns
 
     @property
+    def total_ms(self):
+        return self.total_ns * self.NS2MS
+    
+    @property
     def total_sec(self):
         return self._total_time_ns * self.NS2SEC
-
+    
     @property
     def average_ns(self):
         return self._total_time_ns / self._count if self._count else 0
@@ -47,6 +51,10 @@ class LoopTick:
     @property
     def average_ms(self):
         return self.average_ns * self.NS2MS
+    
+    @property
+    def average_sec(self):
+        return self.average_ns * self.NS2SEC
 
     def __enter__(self):
         self.reset()
@@ -82,3 +90,5 @@ if __name__ == "__main__":
     while True:
         time.sleep(0.1)
         pass
+
+    
