@@ -23,7 +23,10 @@ from looptick import LoopTick
 import time
 
 looptick = LoopTick()
+looptick = LoopTick()
 for i in range(5):
+    diff = looptick.tick()
+    print(f"第 {i} 次循环耗时: {diff * looptick.NS2MS:.6f} ms")
     diff = looptick.tick()
     print(f"第 {i} 次循环耗时: {diff * looptick.NS2MS:.6f} ms")
     time.sleep(0.01)
@@ -39,12 +42,16 @@ from looptick import LoopTick
 import time
 
 with LoopTick() as looptick:
+with LoopTick() as looptick:
     for i in range(5):
+        diff = looptick.tick()
+        print(f"第 {i} 次循环耗时: {diff * looptick.NS2MS:.6f} ms")
         diff = looptick.tick()
         print(f"第 {i} 次循环耗时: {diff * looptick.NS2MS:.6f} ms")
         time.sleep(0.01)
 ```
 
+输出结果示例：
 输出结果示例：
 ```bash
 (LoopTick) PS C:\IT\LoopTick> & C:\IT\LoopTick\.venv\Scripts\python.exe c:/IT/LoopTick/examples/with_usage.py  
