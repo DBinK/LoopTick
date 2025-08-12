@@ -23,16 +23,21 @@ from looptick import LoopTick
 import time
 
 looptick = LoopTick()
-looptick = LoopTick()
+
+# 常规调用方式
 for i in range(5):
     diff = looptick.tick()
     print(f"第 {i} 次循环耗时: {diff * looptick.NS2MS:.6f} ms")
-    diff = looptick.tick()
-    print(f"第 {i} 次循环耗时: {diff * looptick.NS2MS:.6f} ms")
     time.sleep(0.01)
-
+    
 print(f"总耗时: {looptick.total_sec:.6f} 秒")
 print(f"平均耗时: {looptick.average_ms:.6f} ms")
+
+# 或者用更精简的语法
+for i in range(5):
+    diff = looptick()  # 直接调用 __call__() 方法, 免去书写 tick()
+    print(f"第 {i} 次循环耗时: {diff * looptick.NS2MS:.6f} ms")
+    time.sleep(0.01)
 ```
 
 使用上下文方式
@@ -51,7 +56,6 @@ with LoopTick() as looptick:
         time.sleep(0.01)
 ```
 
-输出结果示例：
 输出结果示例：
 ```bash
 (LoopTick) PS C:\IT\LoopTick> & C:\IT\LoopTick\.venv\Scripts\python.exe c:/IT/LoopTick/examples/with_usage.py  
@@ -202,3 +206,6 @@ linetick 对象测量的循环任务总耗时: 0.409659 秒
 looptick 对象测量的循环任务总耗时: 0.275349 秒
 looptick 测量的每次循环平均耗时: 137.674650 ms
 ```
+
+## 已知问题
+- [] 在第一次调用时只能返回一个极小值 (0.000_001)

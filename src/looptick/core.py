@@ -14,6 +14,10 @@ class LoopTick:
         self._count = 0
         self.auto_report = auto_report
 
+    def __call__(self):
+        """ 添加 call 方法精简调用语法"""
+        return self.tick()
+
     def tick(self):
         """记录一次循环，返回本次循环耗时（ns）"""
         now = time.time_ns()
@@ -91,4 +95,3 @@ if __name__ == "__main__":
         time.sleep(0.1)
         pass
 
-    
