@@ -13,19 +13,19 @@ pip install -e .
 ```
 
 ## 使用示例
-常规方式
+常规方式测量循环用时
 
 ```python
 from looptick import LoopTick
 import time
 
-timer = LoopTick()
+looptick = LoopTick()
 for i in range(5):
-    diff = timer.tick()
-    print(f"第 {i} 次循环耗时: {diff * timer.NS2MS:.6f} ms")
+    diff = looptick.tick()
+    print(f"第 {i} 次循环耗时: {diff * looptick.NS2MS:.6f} ms")
     time.sleep(0.01)
 
-timer.__exit__()
+looptick.__exit__()
 ```
 
 使用上下文方式
@@ -34,14 +34,14 @@ timer.__exit__()
 from looptick import LoopTick
 import time
 
-with LoopTick() as timer:
+with LoopTick() as looptick:
     for i in range(5):
-        diff = timer.tick()
-        print(f"第 {i} 次循环耗时: {diff * timer.NS2MS:.6f} ms")
+        diff = looptick.tick()
+        print(f"第 {i} 次循环耗时: {diff * looptick.NS2MS:.6f} ms")
         time.sleep(0.01)
 ```
 
-输出结果：
+输出结果示例：
 ```bash
 (LoopTick) PS C:\IT\LoopTick> & C:\IT\LoopTick\.venv\Scripts\python.exe c:/IT/LoopTick/examples/with_usage.py  
 第 0 次循环耗时: 0.000000 ms
