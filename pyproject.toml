@@ -1,6 +1,6 @@
 [project]
 name = "looptick"
-version = "0.1.2"
+version = "0.1.3"
 description = "A simple loop execution time measurement tool."
 readme = "README.md"
 authors = [

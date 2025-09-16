@@ -42,6 +42,6 @@ for i in range(3):  # 模拟 1000 次循环
 print(f"\nlinetick 对象测量的循环任务总耗时: {linetick.total_sec:.6f} 秒")
 
 print(f"looptick 对象测量的循环任务总耗时: {looptick.total_sec:.6f} 秒")  
-print(f"looptick 测量的每次循环平均耗时: {looptick.average_ms:.6f} ms")
+print(f"looptick 测量的每次循环平均耗时: {looptick.avg_ms:.6f} ms")
 
 # 注意: looptick 对象会少一次循环的计时, 因为在第一次调用时只能返回一个极小值 (0.000_001) 

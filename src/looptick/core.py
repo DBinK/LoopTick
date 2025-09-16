@@ -11,8 +11,8 @@ class LoopTick:
         """ 
         self._last_time = None
         self._total_time_ns = 0
+        self._diff_time_ns = 0
         self._count = 0
-        self._diff_ns = 0
         self._first_tick = first_tick
         self.auto_report = auto_report
 
@@ -26,31 +26,27 @@ class LoopTick:
         if self._last_time is None:
             self._last_time = now
             return self._first_tick   # 避免除零
-        self._diff_ns = now - self._last_time
+        self._diff_time_ns = now - self._last_time
         self._last_time = now
-        self._total_time_ns += self._diff_ns 
+        self._total_time_ns += self._diff_time_ns 
         self._count += 1
-        return self._diff_ns 
+        return self._diff_time_ns 
     
-    @property
     def tick_ms(self):
         """ 记录一次循环，返回本次循环耗时（ms）"""
         return self.tick() * self.NS2MS
     
-    @property
     def tick_sec(self):
         """ 记录一次循环，返回本次循环耗时（s）"""
         return self.tick() * self.NS2SEC
     
-    @property
     def get_hz(self):
         """ 查询当前帧率（hz） , 不更新 tick"""
-        return 1 / (self._diff_ns * self.NS2SEC)
+        return 1 / (self._diff_time_ns * self.NS2SEC)
 
-    @property
     def get_avg_hz(self):
         """ 获取平均帧率（hz）, 不更新 tick """
-        return 1 / self.average_sec
+        return 1 / self.avg_sec
 
     def reset(self):
         """ 重置计时器 """
@@ -71,16 +67,16 @@ class LoopTick:
         return self._total_time_ns * self.NS2SEC
     
     @property
-    def average_ns(self):
+    def avg_ns(self):
         return self._total_time_ns / self._count if self._count else 0
 
     @property
-    def average_ms(self):
-        return self.average_ns * self.NS2MS
+    def avg_ms(self):
+        return self.avg_ns * self.NS2MS
     
     @property
-    def average_sec(self):
-        return self.average_ns * self.NS2SEC
+    def avg_sec(self):
+        return self.avg_ns * self.NS2SEC
 
     def __enter__(self):
         self.reset()
@@ -89,7 +85,7 @@ class LoopTick:
     def __exit__(self, exc_type, exc_val, exc_tb):
         if self.auto_report:
             print(f"总耗时: {self.total_sec:.6f} 秒")
-            print(f"平均耗时: {self.average_ms:.6f} ms")
+            print(f"平均耗时: {self.avg_ms:.6f} ms")
             print(f"平均Hz: {self.get_avg_hz:.6f} Hz")
             print(f"总次数: {self._count}")
 
@@ -106,7 +102,7 @@ if __name__ == "__main__":
         time.sleep(0.001)
     
     print(f"总耗时: {looptick.total_sec:.6f} 秒")
-    print(f"平均耗时: {looptick.average_ms:.6f} ms")
+    print(f"平均耗时: {looptick.avg_ms:.6f} ms")
     print(f"平均Hz: {looptick.get_avg_hz:.6f} Hz")
     
 

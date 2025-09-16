@@ -10,7 +10,7 @@ for i in range(5):
     time.sleep(0.01)
     
 print(f"总耗时: {looptick.total_sec:.6f} 秒")
-print(f"平均耗时: {looptick.average_ms:.6f} ms")
+print(f"平均耗时: {looptick.avg_ms:.6f} ms")
 
 # 或者用更精简的语法
 for i in range(5):
@@ -19,4 +19,4 @@ for i in range(5):
     time.sleep(0.01)
     
 print(f"总耗时: {looptick.total_sec:.6f} 秒")
-print(f"平均耗时: {looptick.average_ms:.6f} ms")
+print(f"平均耗时: {looptick.avg_ms:.6f} ms")
