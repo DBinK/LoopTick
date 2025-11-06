@@ -1,7 +1,7 @@
 import time
 
 class LoopTick:
-    """ 循环计时器，用于测量每次循环及总耗时"""
+    
     NS2MS  = 1 / 1_000_000
     NS2SEC = 1 / 1_000_000_000
 
@@ -11,7 +11,7 @@ class LoopTick:
         """ 
         self._last_time = None
         self._total_time_ns = 0
-        self._diff_time_ns = 0
+        self._diff_time_ns = first_tick
         self._count = 0
         self._first_tick = first_tick
         self.auto_report = auto_report
@@ -68,7 +68,7 @@ class LoopTick:
     
     @property
     def avg_ns(self):
-        return self._total_time_ns / self._count if self._count else 0
+        return self._total_time_ns / self._count if self._count else self._first_tick
 
     @property
     def avg_ms(self):
@@ -86,7 +86,7 @@ class LoopTick:
         if self.auto_report:
             print(f"总耗时: {self.total_sec:.6f} 秒")
             print(f"平均耗时: {self.avg_ms:.6f} ms")
-            print(f"平均Hz: {self.get_avg_hz:.6f} Hz")
+            print(f"平均Hz: {self.get_avg_hz():.6f} Hz")
             print(f"总次数: {self._count}")
 
 
@@ -96,14 +96,16 @@ if __name__ == "__main__":
     # 普通方式
     looptick = LoopTick()
 
-    for i in range(10):
+    for i in range(100):
         diff = looptick.tick()
-        print(f"第 {i} 次循环耗时: {diff * looptick.NS2MS:.6f} ms")
+        hz = looptick.get_hz()
+        avg_hz = looptick.get_avg_hz()
+        print(f"第 {i} 次循环耗时: {diff * looptick.NS2MS:.6f} ms, Hz: {hz:.6f}, 平均Hz: {avg_hz:.6f}")
         time.sleep(0.001)
     
     print(f"总耗时: {looptick.total_sec:.6f} 秒")
     print(f"平均耗时: {looptick.avg_ms:.6f} ms")
-    print(f"平均Hz: {looptick.get_avg_hz:.6f} Hz")
+    print(f"平均Hz: {looptick.get_avg_hz():.6f} Hz")
     
 
     # 用上下文管理器方式
