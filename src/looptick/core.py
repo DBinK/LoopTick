@@ -10,7 +10,7 @@ class LoopTick:
         :param auto_report: True 时，在退出上下文时自动打印总耗时和平均耗时
         """ 
         self._last_time = None
-        self._total_time_ns = 0
+        self._total_time_ns = first_tick
         self._diff_time_ns = first_tick
         self._count = 0
         self._first_tick = first_tick
